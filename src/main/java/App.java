@@ -14,7 +14,46 @@ public class App {
 
     public String bestCharge(List<String> inputs) {
         //TODO: write code here
-
-        return null;
+        String receiptString="============= 订餐明细 =============\n";
+        int conger_chicken_half=0;
+        int meat_clip_buns=0;
+        int lp_half=0;
+        int all_cost_A=0;
+        int all_cost_B=0;
+        for(String meal:inputs){
+            String food=meal.substring(0,meal.indexOf("x")-1);
+            int count=Integer.parseInt(meal.substring(meal.indexOf("x")+2,meal.length()));
+            switch (food){
+                case "ITEM0001":
+                    all_cost_A+=18*count;
+                    all_cost_B+=9*count;
+                    conger_chicken_half=9*count;
+                    receiptString+="黄焖鸡 x "+count+" = "+count*18+"元\n";
+                    break;
+                case "ITEM0013":
+                    all_cost_A+=6*count;
+                    all_cost_B+=6*count;
+                    receiptString+="肉夹馍 x "+count+" = "+count*6+"元\n";
+                    break;
+                case "ITEM0022":
+                    all_cost_A+=8*count;
+                    all_cost_B+=4*count;
+                    lp_half=4*count;
+                    receiptString+="凉皮 x "+count+" = "+count*8+"元\n";
+                    break;
+            }
+        }
+        if(all_cost_A>=30&&all_cost_A-6<=all_cost_B){
+            all_cost_A=all_cost_A-6;
+            receiptString+="-----------------------------------\n使用优惠:\n";
+            receiptString+="满30减6元，省6元\n-----------------------------------\n总计："+all_cost_A+"元\n===================================";
+        }else if(conger_chicken_half>0||lp_half>0){
+            receiptString+="-----------------------------------\n使用优惠:\n";
+            receiptString+="指定菜品半价(黄焖鸡，凉皮)，省"+(conger_chicken_half+lp_half)+"元\n-----------------------------------\n总计："+all_cost_B+"元\n===================================";
+        }else {
+            receiptString+="-----------------------------------\n总计："+all_cost_B+"元\n===================================";
+        }
+        System.out.println(receiptString);
+        return receiptString;
     }
 }
